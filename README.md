@@ -1,3 +1,5 @@
+![test](logo.png?raw=true "Logo")
+
 This is a project for a class at the Hogeschool Utrecht, Technische-Informatica. 
 
 This project includes a libary for the BH1750 lightintensity sensor and an application showing that the libary works. The application returns
