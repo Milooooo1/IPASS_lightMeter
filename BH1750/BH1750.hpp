@@ -1,9 +1,11 @@
-// ==========================================================
-// Copyright Milo Beliën 2020 - 2021.
-// Distributed under the Boost Software License, Version 1.0. 
-// (See accompanying file LICENSE_1_0.txt or copy at 
-// https://www.boost.org/LICENSE_1_0.txt)
-// ==========================================================
+// ==========================================================================
+// Copyright : 2002milo@gmail.com 2020 - 2021
+//
+// Distributed under the Boost Software License, Version 1.0.
+// (See accompanying file LICENSE_1_0.txt or copy at
+// http://www.boost.org/LICENSE_1_0.txt)
+//
+// ==========================================================================
 
 #ifndef BH1750_HPP
 #define BH1750_HPP
@@ -22,11 +24,11 @@
 
 class BH1750 {
 private:
-    auto addr_pin = hwlib::target::pin_out( hwlib::target::pins::pin_out_dummy );
-    auto scl = hwlib::target::pin_oc( hwlib::target::pins::scl );
-    auto sda = hwlib::target::pin_oc( hwlib::target::pins::sda );
-    auto bus = hwlib::i2c_bus_bit_banged_scl_sda( scl,sda );
     uint8_t address;
+    //hwlib::target::pin_out addr_pin; // = hwlib::target::pin_out( hwlib::pin_out_dummy );
+    hwlib::target::pin_oc scl = hwlib::target::pin_oc( hwlib::target::pins::scl );
+    hwlib::target::pin_oc sda = hwlib::target::pin_oc( hwlib::target::pins::sda );
+    hwlib::i2c_bus_bit_banged_scl_sda bus = hwlib::i2c_bus_bit_banged_scl_sda( scl,sda );
 
 public:
 
@@ -56,7 +58,7 @@ public:
         ONE_TIME_H_RES2	= 0x21,
         ONE_TIME_L_RES = 0x23
     };
-
+    //TODO add addr_pin
     /// \brief
     /// Constructor
     /// \details
@@ -65,7 +67,7 @@ public:
     /// the high resolution mode which is standard in this library
     /// you also have the option to add an addr pin which is necessary
     /// in combination with multiple BH1750 chips.
-    BH1750(uint8_t address = 0x23, hwlib::target::pin_out addr = hwlib::target::pins::pin_out_dummy );
+    BH1750(uint8_t address = 0x23);
 
     /// \brief
     /// Power down

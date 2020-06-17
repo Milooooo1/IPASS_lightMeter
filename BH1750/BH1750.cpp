@@ -1,9 +1,18 @@
+// ==========================================================================
+// Copyright : 2002milo@gmail.com 2020 - 2021
+//
+// Distributed under the Boost Software License, Version 1.0.
+// (See accompanying file LICENSE_1_0.txt or copy at
+// http://www.boost.org/LICENSE_1_0.txt)
+//
+// ==========================================================================
+
 #include "hwlib.hpp"
 #include "BH1750.hpp"
 
-BH1750::BH1750(uint8_t address = 0x23, hwlib::target::pin_out addr = hwlib::target::pins::pin_out_dummy):
-    address( address),
-    addr_pin( addr )
+BH1750::BH1750(uint8_t address/*, hwlib::target::pin_out addr*/):
+    address( address) //,
+    //addr_pin( addr )
 {}
 
 void BH1750::PowerDown(){
@@ -41,5 +50,6 @@ uint16_t BH1750::GetLightIntensity(void){
 		auto readtr = ((hwlib::i2c_bus*)(&bus))->read(address);
 		readtr.read(result, 2);
 	}
+    LuxValue = result[0] + result[1];
     return LuxValue / 1.2;
 }
