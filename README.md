@@ -4,6 +4,7 @@ This project includes a libary for the BH1750 lightintensity sensor and an appli
 the value's you need to enter on your DSLR or Mirrorless Camera, you can also alter the settings after you already measured the light intensity.
 
 Generate documentation with the following command:
+
 `doxygen Doxyfile`
 
 --------------------------------------------------------------------------------------------
