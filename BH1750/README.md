@@ -1,1 +1,2 @@
-![Alt text](../logo.png?raw=true) BH1750 Library using the hwlib I2C bitbanged implementation.
+![Alt text](../logo.png?raw=true) 
+BH1750 Library using the hwlib I2C bitbanged implementation.
