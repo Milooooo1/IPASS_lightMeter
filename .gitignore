@@ -34,3 +34,4 @@
 #others
 *.yml
 *.vscode
+_config.yml
