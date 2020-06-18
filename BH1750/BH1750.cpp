@@ -40,8 +40,8 @@ void BH1750::ConfigureMTREG(MTREGT_MODES mode){
         return;
     }
     auto writetr = ((hwlib::i2c_bus*)(&bus))->write(address);
-   	writetr.write((0b01000 << 3) | (mode >> 5));
-    writetr.write((0b011 << 5)   | (mode & 0b11111));
+   	writetr.write((0b01000 << 3) | (mode >> 5));        //high bit
+    writetr.write((0b011 << 5)   | (mode & 0b11111));   //low bit
 }
 
 uint16_t BH1750::GetLightIntensity(void){
