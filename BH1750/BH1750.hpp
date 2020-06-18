@@ -10,6 +10,9 @@
 #ifndef BH1750_HPP
 #define BH1750_HPP
 
+#include "hwlib.hpp"
+#include <stdint.h>
+
 /// @file
 
 /// \brief
@@ -23,7 +26,7 @@
 /// on github here: https://github.com/wovo/hwlib. 
 
 class BH1750 {
-private:
+protected:
     uint8_t address;
     //hwlib::target::pin_out addr_pin; // = hwlib::target::pin_out( hwlib::pin_out_dummy );
     hwlib::target::pin_oc scl = hwlib::target::pin_oc( hwlib::target::pins::scl );
@@ -58,6 +61,20 @@ public:
         ONE_TIME_H_RES2	= 0x21,
         ONE_TIME_L_RES = 0x23
     };
+
+    /// \brief
+    /// enum for the different measurement times
+    /// \details
+    /// This enum makes it easier to read how sensitive 
+    /// the sensor is. It changes how long the optical
+    /// window is opened. 
+    enum MTREGT_MODES
+    {
+        DEFAULT_MTREG = 0x45,
+        MIN_MTREG     = 0x1F,
+        MAX_MTREG     = 0xFE
+    };
+
     //TODO add addr_pin
     /// \brief
     /// Constructor
@@ -95,6 +112,14 @@ public:
     /// This function configures the mode which is used
     /// by the chip how to measure the light value.
     void Configure(MODE mode);
+
+    /// \brief
+    /// Configure measurement time
+    /// \details
+    /// This function adds the ability to change
+    /// the measurement time (MTreg = measurment register)
+    /// this changes the sensitivity of the sensor. 
+    void ConfigureMTREG(MTREGT_MODES mode);
 
     /// \brief
     /// Measure light intensity

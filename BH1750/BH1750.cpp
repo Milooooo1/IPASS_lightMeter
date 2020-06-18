@@ -7,7 +7,7 @@
 //
 // ==========================================================================
 
-#include "hwlib.hpp"
+//#include "hwlib.hpp"
 #include "BH1750.hpp"
 
 BH1750::BH1750(uint8_t address/*, hwlib::target::pin_out addr*/):
@@ -16,31 +16,32 @@ BH1750::BH1750(uint8_t address/*, hwlib::target::pin_out addr*/):
 {}
 
 void BH1750::PowerDown(){
-    {
-		auto writetr = ((hwlib::i2c_bus*)(&bus))->write(address);
-   		writetr.write(POWER_DOWN);
-	}
+	auto writetr = ((hwlib::i2c_bus*)(&bus))->write(address);
+    writetr.write(POWER_DOWN);
 }
 
 void BH1750::PowerOn(){
-    {
-		auto writetr = ((hwlib::i2c_bus*)(&bus))->write(address);
-   		writetr.write(POWER_UP);
-	}
+    auto writetr = ((hwlib::i2c_bus*)(&bus))->write(address);
+   	writetr.write(POWER_UP);
 }
 
 void BH1750::Reset(){
-	{
-		auto writetr = ((hwlib::i2c_bus*)(&bus))->write(address);
-   		writetr.write(RESET);
-	}   
+	auto writetr = ((hwlib::i2c_bus*)(&bus))->write(address);
+   	writetr.write(RESET);  
 }
 
 void BH1750::Configure(MODE mode){
-    {
-		auto writetr = ((hwlib::i2c_bus*)(&bus))->write(address);
-   		writetr.write(mode);
-	}
+	auto writetr = ((hwlib::i2c_bus*)(&bus))->write(address);
+   	writetr.write(mode);
+}
+
+void BH1750::ConfigureMTREG(MTREGT_MODES mode){
+    if(mode <= 31 || mode > 254){
+        return;
+    }
+    auto writetr = ((hwlib::i2c_bus*)(&bus))->write(address);
+   	writetr.write((0b01000 << 3) | (mode >> 5));
+    writetr.write((0b011 << 5)   | (mode & 0b11111));
 }
 
 uint16_t BH1750::GetLightIntensity(void){

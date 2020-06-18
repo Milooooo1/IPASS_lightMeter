@@ -9,15 +9,15 @@
 #############################################################################
 
 # source files in this project (main.cpp is automatically assumed)
-SOURCES := BH1750.cpp
+SOURCES := BH1750.cpp BH1750_Average.cpp
 
 # header files in this project
-HEADERS := BH1750.hpp
+HEADERS := BH1750.hpp BH1750_Average.hpp
 
 # other places to look for files for this project
 SEARCH  := 
 
 # set RELATIVE to the next higher directory 
-# and defer to the Makefile.* there
+# and defer to the appropriate Makefile.* there
 RELATIVE := ..
-include $(RELATIVE)/Makefile.native
+include $(RELATIVE)/Makefile.due
