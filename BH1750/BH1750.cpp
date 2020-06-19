@@ -10,9 +10,8 @@
 //#include "hwlib.hpp"
 #include "BH1750.hpp"
 
-BH1750::BH1750(uint8_t address/*, hwlib::target::pin_out addr*/):
-    address( address) //,
-    //addr_pin( addr )
+BH1750::BH1750(uint8_t address):
+    address( address)
 {}
 
 void BH1750::PowerDown(){
