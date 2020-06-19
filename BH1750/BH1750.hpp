@@ -75,15 +75,12 @@ public:
         MAX_MTREG     = 0xFE
     };
 
-    //TODO add addr_pin
     /// \brief
     /// Constructor
     /// \details
     /// The constructor has the option to use 1 of 2 I2C addresses
     /// default address is 0x23, this is used in combination with
     /// the high resolution mode which is standard in this library
-    /// you also have the option to add an addr pin which is necessary
-    /// in combination with multiple BH1750 chips.
     BH1750(uint8_t address = 0x23);
 
     /// \brief
