@@ -19,38 +19,24 @@ class lightmeter {
 private:
     BH1750 & sensor;
     BH1750_Average avgSensor = BH1750_Average(sensor);
-    hwlib::terminal_from & display;
-    float lux, ExposureValue, Apperature = 0;
-    int shutterSpeed = 0;
-    int ISO = 100;
+    float lux, ExposureValue = 0;
 
 public:
-    lightmeter(BH1750 & sensor, hwlib::terminal_from & display);
+    lightmeter(BH1750 & sensor);
 
     float log2(float x);
 
-    float luxToEv();
+    float getEv();
 
     void configMeasurement(BH1750::MODE mode);
 
     float getLux();
 
-    float getISO();
+    unsigned int getISO(float Apperature, int shutterSpeed);
 
-    float getApperature();
+    float getApperature(int ISO, int shutterSpeed);
 
-    float getShutterspeed();
-
-    // void refresh();
-
-    // void showISOmenu();
-
-    // void showApperatureMenu();
-
-    // void showShutterspeedMenu();
-
-    // void showSettingsMenu();
-
+    unsigned int getShutterspeed(float Apperature, int ISO);
 };
 
 #endif //LIGHTMETER_hpp
