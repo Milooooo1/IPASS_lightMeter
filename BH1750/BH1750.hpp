@@ -28,7 +28,6 @@
 class BH1750 {
 protected:
     uint8_t address;
-    //hwlib::target::pin_out addr_pin; // = hwlib::target::pin_out( hwlib::pin_out_dummy );
     hwlib::target::pin_oc scl = hwlib::target::pin_oc( hwlib::target::pins::scl );
     hwlib::target::pin_oc sda = hwlib::target::pin_oc( hwlib::target::pins::sda );
     hwlib::i2c_bus_bit_banged_scl_sda bus = hwlib::i2c_bus_bit_banged_scl_sda( scl,sda );
