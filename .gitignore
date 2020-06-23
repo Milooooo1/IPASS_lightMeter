@@ -35,3 +35,8 @@
 *.yml
 *.vscode
 _config.yml
+*.map
+*.ld
+*.bin
+*.elf
+bmptk*
