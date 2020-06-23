@@ -22,7 +22,8 @@ int main(void){
         if(previous != lux){
             display << "\n"
                     <<"Light: " << lux << " Lux" << hwlib::flush;
-            hwlib::cout << "Light: " << sensor.GetLightIntensity() << " Lux \n";
+            hwlib::cout 
+                    <<"Light: " << lux << " Lux \n";
         }
         hwlib::wait_ms(400);
         if(lux != sensor.GetLightIntensity()){
