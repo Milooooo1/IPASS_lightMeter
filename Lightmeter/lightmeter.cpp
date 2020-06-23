@@ -9,7 +9,9 @@
 
 #include "lightmeter.hpp"
 
-lightmeter::lightmeter():
+lightmeter::lightmeter(BH1750 & sensor, hwlib::terminal_from & display):
+    sensor( sensor ),
+    display( display )
     {}
 
 float lightmeter::log2(float x){
@@ -17,10 +19,10 @@ float lightmeter::log2(float x){
 }
 
 float lightmeter:: luxToEv(){
-    return log2(lux / 2.5);
+    return log2(sensor.GetLightIntensity() / 2.5);
 }
 
-void lightmeter::configMeasurement(sensor.MODE mode = CONTINUOUSLY_H_RES){
+void lightmeter::configMeasurement(BH1750::MODE mode){
     sensor.Configure(mode);
 }
 
@@ -28,19 +30,40 @@ float lightmeter::getLux(){
     return sensor.GetLightIntensity();
 }
 
-float lightmeter::getISO();
+float lightmeter::getISO(){
+    return ((pow(Apperature, 2.0) / shutterSpeed) * 12.5) / ExposureValue; 
+}
 
-float lightmeter::getApperature();
+float lightmeter::getApperature(){
+    return sqrt((ISO * ExposureValue) / 12.5) * shutterSpeed;
+}
 
-float lightmeter::getShutterspeed();
+float lightmeter::getShutterspeed(){
+    return pow(Apperature, 2)/((ISO * ExposureValue) / 12.5);
+}
 
-void lightmeter::refresh();
+// void lightmeter::refresh(){
 
-void lightmeter::showISOmenu();
+// }
 
-void lightmeter::showApperatureMenu();
+// void lightmeter::showISOmenu(){
+//     display << "ISO: \n" << ISO << hwlib::flush;
+// }
 
-void lightmeter::showShutterspeedMenu();
+// void lightmeter::showApperatureMenu();
 
-void lightmeter::showMainMenu();
+// void lightmeter::showShutterspeedMenu();
 
+// void lightmeter::showSettingsMenu(){
+//     display << "ISO = " << ISO
+//             << "\n t = " << shutterSpeed
+//             << "\n f/" << Apperature
+//             << hwlib::flush;
+// }
+
+// N^2 / t = L * S / K
+// N = Apperature
+// t = shutterspeed (time)
+// L = EV (Luminance)
+// S = ISO
+// K = constant (12.5)

@@ -9,10 +9,10 @@
 #############################################################################
 
 # source files in this project (main.cpp is automatically assumed)
-SOURCES := BH1750.cpp BH1750_Average.cpp
+SOURCES := BH1750.cpp BH1750_Average.cpp lightmeter.cpp
 
 # header files in this project
-HEADERS := BH1750.hpp BH1750_Average.hpp
+HEADERS := BH1750.hpp BH1750_Average.hpp lightmeter.hpp
 
 # other places to look for files for this project
 SEARCH  := ../BH1750/

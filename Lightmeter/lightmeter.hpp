@@ -17,25 +17,21 @@
 
 class lightmeter {
 private:
-    BH1750 sensor = BH1750();
+    BH1750 & sensor;
     BH1750_Average avgSensor = BH1750_Average(sensor);
-    hwlib::font_default_8x8 font8x8 = hwlib::font_default_8x8();
-    hwlib::font_default_16x16 font16x16 = hwlib::font_default_16x16();
-    hwlib::target::pin_oc scl = hwlib::target::pin_oc( hwlib::target::pins::scl );
-    hwlib::target::pin_oc sda = hwlib::target::pin_oc( hwlib::target::pins::sda );
-    hwlib::i2c_bus_bit_banged_scl_sda bus = hwlib::i2c_bus_bit_banged_scl_sda( scl,sda );
-    hwlib::glcd_oled oled = hwlib::glcd_oled( i2c_bus, 0x3c ); 
-    hwlib::terminal_from display = hwlib::terminal_from( oled, font8x8 );
-    float lux, ExposureValue = 0;
-    
+    hwlib::terminal_from & display;
+    float lux, ExposureValue, Apperature = 0;
+    int shutterSpeed = 0;
+    int ISO = 100;
+
 public:
-    lightmeter();
+    lightmeter(BH1750 & sensor, hwlib::terminal_from & display);
 
     float log2(float x);
 
     float luxToEv();
 
-    void configMeasurement(sensor.MODE mode = CONTINUOUSLY_H_RES);
+    void configMeasurement(BH1750::MODE mode);
 
     float getLux();
 
@@ -45,15 +41,15 @@ public:
 
     float getShutterspeed();
 
-    void refresh();
+    // void refresh();
 
-    void showISOmenu();
+    // void showISOmenu();
 
-    void showApperatureMenu();
+    // void showApperatureMenu();
 
-    void showShutterspeedMenu();
+    // void showShutterspeedMenu();
 
-    void showMainMenu();
+    // void showSettingsMenu();
 
 };
 
