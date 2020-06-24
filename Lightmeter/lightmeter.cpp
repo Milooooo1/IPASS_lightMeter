@@ -29,7 +29,7 @@ float lightmeter::getLux(){
     return sensor.GetLightIntensity();
 }
 
-unsigned int lightmeter::getISO(float Apperature, int shutterSpeed){
+int lightmeter::getISO(float Apperature, int shutterSpeed){
     int tmp = ((pow(Apperature, 2.0) / shutterSpeed) * 12.5) / getEv();
     if(tmp >= 100 && tmp < 125){
         return 100;
@@ -101,7 +101,7 @@ float lightmeter::getApperature(int ISO, int shutterSpeed){
     }
 }
 
-unsigned int lightmeter::getShutterspeed(float Apperature, int ISO){
+float lightmeter::getShutterspeed(float Apperature, int ISO){
     return pow(Apperature, 2)/((ISO * getEv()) / 12.5);
 }
 

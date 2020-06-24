@@ -76,7 +76,7 @@ public:
     /// This function calculates the ISO, it needs
     /// the aperature and shutterspeed which are 
     /// configured by the user. 
-    unsigned int getISO(float Apperature, int shutterSpeed);
+    int getISO(float Apperature, int shutterSpeed);
 
     /// \brief
     /// Calculate Aperature

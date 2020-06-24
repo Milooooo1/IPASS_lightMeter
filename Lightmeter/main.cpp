@@ -154,6 +154,9 @@ void showSettingsMenu(hwlib::terminal_from & display, hwlib::terminal_from & hea
             } else {
                 display << "\f" << hwlib::flush;
                 display << "\nInvalid entry"<< hwlib::flush;
+                realShutterspeed = 0;
+                ISO = 0;
+                Apperature = 0;
                 displayed = false;
                 calculated = false;
                 hwlib::wait_ms(1000);
