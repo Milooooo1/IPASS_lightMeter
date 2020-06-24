@@ -15,6 +15,17 @@
 #include "hwlib.hpp"
 #include <math.h>
 
+/// @file
+
+/// \brief
+/// Lightmeter camera C++ Library
+/// \details
+/// This is a C++ Library using the BH1750 library 
+/// to measure the lightintensity and calculates
+/// the Aperature, Shutterspeed or ISO which you
+/// can enter into your camera to get a correctly
+/// exposed photo. 
+
 class lightmeter {
 private:
     BH1750 & sensor;
@@ -22,21 +33,66 @@ private:
     float lux, ExposureValue = 0;
 
 public:
+    /// \brief
+    /// Constructor
+    /// \details
+    /// The constructor for the lightmeter
+    /// needs a sensor to measure the lightintensity
     lightmeter(BH1750 & sensor);
 
+    /// \brief
+    /// log2
+    /// \details
+    /// This function makes it easier and more
+    /// readable to use log2
     float log2(float x);
 
+    /// \brief
+    /// Get exposure value
+    /// \details
+    /// This function calls the sensor to measure
+    /// the lightintensity and calculates the 
+    /// exposure value which is needed to calculate
+    /// the shutterspeed, aperature or ISO
     float getEv();
 
+    /// \brief
+    /// Configure measurement mode
+    /// \details
+    /// This function configures in which
+    /// mode the sensor measures the lightintensity
     void configMeasurement(BH1750::MODE mode);
 
+    /// \brief
+    /// Get exposure value
+    /// \details
+    /// This function calls the sensor to measure
+    /// the lightintensity.
     float getLux();
 
+    /// \brief
+    /// Calculate ISO
+    /// \details
+    /// This function calculates the ISO, it needs
+    /// the aperature and shutterspeed which are 
+    /// configured by the user. 
     unsigned int getISO(float Apperature, int shutterSpeed);
 
+    /// \brief
+    /// Calculate Aperature
+    /// \details
+    /// This function calculates the Aperature, it needs
+    /// the ISO and shutterspeed which are 
+    /// configured by the user. 
     float getApperature(int ISO, int shutterSpeed);
 
-    unsigned int getShutterspeed(float Apperature, int ISO);
+    /// \brief
+    /// Calculate Shutterspeed
+    /// \details
+    /// This function calculates the Shutterspeed, it needs
+    /// the aperature and ISO which are 
+    /// configured by the user. 
+    float getShutterspeed(float Apperature, int ISO);
 };
 
 #endif //LIGHTMETER_hpp

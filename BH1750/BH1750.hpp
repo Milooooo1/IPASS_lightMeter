@@ -77,9 +77,10 @@ public:
     /// \brief
     /// Constructor
     /// \details
-    /// The constructor has the option to use 1 of 2 I2C addresses
-    /// default address is 0x23, this is used in combination with
-    /// the high resolution mode which is standard in this library
+    /// The constructor has a default address is 0x23 
+    /// this is used in combination with the high resolution mode 
+    /// this is standard in this library you can also choose the 
+    /// low resolution mode: 0x5C.
     BH1750(uint8_t address = 0x23);
 
     /// \brief
