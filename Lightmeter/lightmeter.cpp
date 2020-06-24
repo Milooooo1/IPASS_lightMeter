@@ -75,7 +75,7 @@ unsigned int lightmeter::getISO(float Apperature, int shutterSpeed){
 }
 
 float lightmeter::getApperature(int ISO, int shutterSpeed){
-    float tmp = sqrt((ISO * getEv()) / 12.5) * shutterSpeed;
+    float tmp = sqrt(((ISO * getEv()) / 12.5 )* shutterSpeed) ;
     if(tmp >= 1.2 && tmp < 1.4){
         return 1.2;
     } else if(tmp >= 1.4 && tmp < 1.8) {
