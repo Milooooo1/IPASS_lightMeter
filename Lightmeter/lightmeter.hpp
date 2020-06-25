@@ -71,12 +71,26 @@ public:
     float getLux();
 
     /// \brief
+    /// Get photography style ISO
+    /// \details
+    /// This function rounds the exact ISO to
+    /// the closest photography-style ISO
+    int getCorrectISO(float x);
+
+    /// \brief
     /// Calculate ISO
     /// \details
     /// This function calculates the ISO, it needs
     /// the aperature and shutterspeed which are 
     /// configured by the user. 
-    int getISO(float Apperature, int shutterSpeed);
+    float getISO(float Apperature, float shutterSpeed);
+
+    /// \brief
+    /// Get photography style aperature
+    /// \details
+    /// This function rounds the exact aperature to
+    /// the closest photography-style aperature
+    float getCorrectAperature(float x);
 
     /// \brief
     /// Calculate Aperature
@@ -84,7 +98,14 @@ public:
     /// This function calculates the Aperature, it needs
     /// the ISO and shutterspeed which are 
     /// configured by the user. 
-    float getApperature(int ISO, int shutterSpeed);
+    float getApperature(int ISO, float shutterSpeed);
+
+    /// \brief
+    /// Get photography style shutterspeed
+    /// \details
+    /// This function rounds the exact shutterspeed to
+    /// the closest photography-style shutterspeed
+    int getCorrectShutterspeed(float x);
 
     /// \brief
     /// Calculate Shutterspeed

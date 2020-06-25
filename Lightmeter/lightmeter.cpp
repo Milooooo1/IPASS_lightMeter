@@ -29,82 +29,58 @@ float lightmeter::getLux(){
     return sensor.GetLightIntensity();
 }
 
-int lightmeter::getISO(float Apperature, int shutterSpeed){
-    int tmp = ((pow(Apperature, 2.0) / shutterSpeed) * 12.5) / getEv();
-    if(tmp >= 100 && tmp < 125){
-        return 100;
-    } else if(tmp >= 125 && tmp < 160) {
-        return 125;
-    } else if(tmp >= 160 && tmp < 200) {
-        return 160;
-    } else if(tmp >= 200 && tmp < 250) {
-        return 200;
-    } else if(tmp >= 250 && tmp < 320) {
-        return 250;
-    } else if(tmp >= 320 && tmp < 400) {
-        return 320;
-    } else if(tmp >= 400 && tmp < 500) {
-        return 400;
-    } else if(tmp >= 500 && tmp < 640) {
-        return 500;
-    } else if(tmp >= 640 && tmp < 800) {
-        return 640;
-    } else if(tmp >= 800 && tmp < 1000) {
-        return 800;
-    } else if(tmp >= 1000 && tmp < 1250) {
-        return 1000;
-    } else if(tmp >= 1250 && tmp < 1600) {
-        return 1250;
-    } else if(tmp >= 1600 && tmp < 2000) {
-        return 1600;
-    } else if(tmp >= 2000 && tmp < 2500) {
-        return 2000;
-    } else if(tmp >= 2500 && tmp < 3200) {
-        return 2500;
-    } else if(tmp >= 3200 && tmp < 4000) {
-        return 3200;
-    } else if(tmp >= 4000 && tmp < 5000) {
-        return 4000;
-    } else if(tmp >= 5000 && tmp < 6400) {
-        return 5000;
-    } else if(tmp >= 6400 && tmp <= 6400) {
-        return 6400;
-    } else {
-        return tmp;
-    } 
+int lightmeter::getCorrectISO(float x){
+    int ISO[19] = { 100, 125, 160, 200, 250, 320, 400, 500, 640, 800, 1000, 1250, 1600, 2000, 2500, 3200, 4000, 5000, 6400 };
+    int nearestISO = 100;
+    int difference = 0;
+    for(int i = 0; i < 19; i++){
+        difference = x - ISO[i];
+        if(nearestISO > difference){
+            nearestISO = difference;
+        }
+    }
+    return nearestISO;
+}
+
+float lightmeter::getISO(float shutterspeed, float aperature){
+    return getCorrectISO((((pow(aperature, 2.0) / shutterspeed) * 12.5) / 2));
+}
+
+float lightmeter::getCorrectAperature(float x){
+    float aperature[12] = { 1.1, 1.2, 1.4, 1.8, 2.0, 2.8, 4, 5.6, 8, 11, 16, 22 };
+    float nearest = aperature[11];
+    float previousDifference = 5;
+    for(int i = 11; i > 0; i--){
+        if(abs(x - aperature[i]) < previousDifference){
+            nearest = aperature[i];
+            previousDifference = abs(x - aperature[i]);
+        }
+    }
+    return nearest;
 }
 
 float lightmeter::getApperature(int ISO, int shutterSpeed){
-    float tmp = sqrt(((ISO * getEv()) / 12.5 )* shutterSpeed) ;
-    if(tmp >= 1.2 && tmp < 1.4){
-        return 1.2;
-    } else if(tmp >= 1.4 && tmp < 1.8) {
-        return 1.4;
-    } else if(tmp >= 1.8 && tmp < 2.0) {
-        return 1.8;
-    } else if(tmp >= 2.0 && tmp < 2.8) {
-        return 2.0;
-    } else if(tmp >= 2.8 && tmp < 4.0) {
-        return 2.8;
-    } else if(tmp >= 4.0 && tmp < 5.6) {
-        return 4.0;
-    } else if(tmp >= 5.6 && tmp < 8.0) {
-        return 5.6;
-    } else if(tmp >= 8.0 && tmp < 11) {
-        return 8.0;
-    } else if(tmp >= 11 && tmp < 16) {
-        return 11;
-    } else if(tmp >= 16 && tmp <= 22) {
-        return 22;
-    } else {
-        return tmp;
+    return getCorrectAperature(sqrt(((ISO * getEv()) / 12.5 ) * shutterSpeed));
+}
+
+int lightmeter::getCorrectShutterspeed(float x){
+double shutterspeed[34] = { 0.25, 0.2, 0.167, 0.125, 0.1, 0.077, 0.067, 0.05, 0.04, 0.03, 0.025, 0.02, 0.0167, 0.0125, 0.01, 
+                         0.008, 0.00625, 0.005, 0.004, 0.003125, 0.0025, 0.002, 0.0015625, 0.00125, 0.001, 
+                         0.0008, 0.000625, 0.0005, 0.0004, 0.0003125, 0.00025, 0.0002, 0.00015625, 0.000125 };
+    float previousDifference = 10;
+    float nearest = shutterspeed[33];
+    for(int i = 33; i > 0; i--){
+        if(abs(x - shutterspeed[i]) < previousDifference ){
+            nearest = shutterspeed[i];
+            previousDifference = abs(x - shutterspeed[i]);
+        }
     }
+    return ceil(1 / nearest);
 }
 
-float lightmeter::getShutterspeed(float Apperature, int ISO){
-    return pow(Apperature, 2)/((ISO * getEv()) / 12.5);
+float lightmeter::getShutterspeed(float aperature, int ISO){
+    return getCorrectShutterspeed(pow(aperature, 2)/((ISO * 2) / 12.5));
 }
-
 
 // Standard formula:
 // N^2 / t = L * S / K
