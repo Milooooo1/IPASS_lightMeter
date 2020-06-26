@@ -4,7 +4,44 @@
 bool displayed = false;
 int ISO = 0;
 int realShutterspeed = 0;                             
-int Apperature = 0;                              //Supposed to be a float but gives problems
+float Apperature = 0;                              //Supposed to be a float but gives problems
+
+void reverse(char* str, int len){
+    int i = 0, j = len - 1, temp;
+    while(i < j){
+        temp = str[i];
+        str[i] = str[j];
+        str[j] = temp;
+        i++;
+        j--;
+    }
+}
+
+int intToString(int x, char str[], int d){
+    int i = 0;
+    while(x){
+        str[i++] = (x % 10) + '0';
+        x = x / 10;
+    }
+    while(i < d){
+        str[i++] = '0';
+    }
+    reverse(str, i);
+    str[i] = '\0';
+    return i;
+}
+
+void floatToArray(float n, char* res, int afterpoint){
+    int ipart = (int)n;
+    float fpart = n - (float)ipart;
+    int i = intToString(ipart, res, 0);
+    if(afterpoint != 0 ){
+        res[i] = '.';
+        fpart = fpart * pow(10, afterpoint);
+        intToString((int)fpart, res + i + 1, afterpoint);
+    }
+
+}
 
 void clearScreen(hwlib::terminal_from & display, hwlib::terminal_from & header){
     display << "\f" << hwlib::flush;
@@ -20,15 +57,17 @@ void showSettingsMenu(hwlib::terminal_from & display, hwlib::terminal_from & hea
     headerDisplay << " Settings menu" << hwlib::flush;
     displayed = false;
     bool calculated = false;
+    char ap[10];
 
     for(;;){
 
+        floatToArray(Apperature, ap, 1);
         if(!displayed){
             display << "\f" << hwlib::flush;
             display << "\n"
                 << "ISO: "  << ISO      << "\n"
                 << "t: 1/"  << realShutterspeed << "\n"
-                << "f/"     << Apperature << hwlib::flush; 
+                << "f/"     << ap << hwlib::flush; 
         }
         displayed = true;
 
@@ -210,8 +249,6 @@ int main(void){
     auto sw4  = hwlib::target::pin_in( hwlib::target::pins::d5 );
 
     meter.configMeasurement(sensor.CONTINUOUSLY_H_RES);
-    
-    //clearScreen(display, headerDisplay);
 
     for(;;){
         if(!displayed){
