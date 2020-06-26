@@ -30,16 +30,16 @@ float lightmeter::getLux(){
 }
 
 int lightmeter::getCorrectISO(float x){
-    int ISO[19] = { 100, 125, 160, 200, 250, 320, 400, 500, 640, 800, 1000, 1250, 1600, 2000, 2500, 3200, 4000, 5000, 6400 };
-    int nearestISO = 100;
-    int difference = 0;
-    for(int i = 0; i < 19; i++){
-        difference = x - ISO[i];
-        if(nearestISO > difference){
-            nearestISO = difference;
+    float ISO[19] = { 100, 125, 160, 200, 250, 320, 400, 500, 640, 800, 1000, 1250, 1600, 2000, 2500, 3200, 4000, 5000, 6400 };
+    float nearest = ISO[18];
+    float previousDifference = 10000;
+    for(int i = 18; i > 0; i--){
+        if(abs(x - ISO[i]) < previousDifference){
+            nearest = ISO[i];
+            previousDifference = abs(x - ISO[i]);
         }
     }
-    return nearestISO;
+    return nearest;
 }
 
 float lightmeter::getISO(float shutterspeed, float aperature){
