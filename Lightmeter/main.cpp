@@ -4,7 +4,7 @@
 bool displayed = false;
 int ISO = 0;
 int realShutterspeed = 0;                             
-float Apperature = 0;                              //Supposed to be a float but gives problems
+float Apperature = 0;
 
 void reverse(char* str, int len){
     int i = 0, j = len - 1, temp;
@@ -52,7 +52,16 @@ void showSettingsMenu(hwlib::terminal_from & display, hwlib::terminal_from & hea
                       hwlib::target::pin_in & sw1, hwlib::target::pin_in & sw2, hwlib::target::pin_in & sw3,
                       hwlib::target::pin_in & sw4){
 
-    int ISOcounter, APcounter, SScounter = 0;
+
+    int ISOArray[25]  = { 0, 100, 125, 160, 200, 250, 320, 400, 500, 640, 800, 1000, 1250,
+                          1600, 2000, 2500, 3200, 4000, 5000, 6400 };                           //Possible photography ISO values
+    float ApArray[15] = { 0, 1.1, 1.2, 1.4, 1.8, 2.0, 2.8, 4.0, 5.6, 6.3, 8.0, 11, 16, 22 };    //Possible photography aperature values
+    int ssArray[35]   = { 0, 8000, 6400, 4000, 3200, 2500, 2000, 1600, 1250, 1000, 800, 
+                          640, 500, 400, 320, 250, 200, 160, 125, 100, 80, 60, 50, 40, 
+                          30, 25, 20, 15, 13, 10, 8, 6, 5, 4 };                                 //Possible photography shutterspeed values
+    int ISOcounter = 0;
+    int APcounter = 0;
+    int SScounter = 0;
     clearScreen(display, headerDisplay);
     headerDisplay << " Settings menu" << hwlib::flush;
     displayed = false;
@@ -70,100 +79,44 @@ void showSettingsMenu(hwlib::terminal_from & display, hwlib::terminal_from & hea
                 << "f/"     << ap << hwlib::flush; 
         }
         displayed = true;
-
         sw1.refresh(); sw2.refresh(); sw3.refresh(); sw4.refresh();
         hwlib::wait_ms(10);
+
+        // This if statement checks the input
+        // Switch 1 calculates or returns to the main menu.
+        // it only returns to the menu if it already 
+        // calculated a value.
+        // Switch 2 increases the ISO
+        // Switch 3 increases the aperature
+        // Switch 4 increases the shutterspeed
         if(sw1.read() == 0 && calculated){
             displayed = false;
             return;
-        } else if (sw2.read() == 0 && sw1.read() == 1 && sw3.read() == 1 && sw4.read() == 1){ //ISO
-            switch (ISOcounter) {
-                case 0:  ISO = 0;    break;
-                case 1:  ISO = 100;  break;
-                case 2:  ISO = 125;  break;
-                case 3:  ISO = 160;  break;
-                case 4:  ISO = 200;  break;
-                case 5:  ISO = 250;  break;
-                case 6:  ISO = 320;  break;
-                case 7:  ISO = 400;  break;
-                case 8:  ISO = 500;  break;
-                case 9:  ISO = 640;  break;
-                case 10: ISO = 800;  break;
-                case 11: ISO = 1000; break;
-                case 12: ISO = 1250; break;
-                case 13: ISO = 1600; break;
-                case 14: ISO = 2000; break;
-                case 15: ISO = 2500; break;
-                case 16: ISO = 3200; break;
-                case 17: ISO = 4000; break;
-                case 18: ISO = 5000; break;
-                case 19: ISO = 6400; break;
-                default: ISOcounter = 0; break;
+        } else if (sw2.read() == 0 && sw1.read() == 1 && sw3.read() == 1 && sw4.read() == 1){           // Increase IOS
+            ISO = ISOArray[ISOcounter];
+            if(ISOcounter > 20){
+                ISOcounter = 0;
+            } else {
+                ISOcounter++;
             }
-            ISOcounter++;
             displayed = false;
             continue;
-        } else if (sw4.read() == 0 && sw2.read() == 1 && sw1.read() == 1 && sw3.read() == 1){ //Aperature
-            switch (APcounter) {
-                case 0:  Apperature = 0;   break;
-                case 1:  Apperature = 1.1; break;
-                case 2:  Apperature = 1.2; break;
-                case 3:  Apperature = 1.4; break;
-                case 4:  Apperature = 1.8; break;
-                case 5:  Apperature = 2.0; break;
-                case 6:  Apperature = 2.8; break;
-                case 7:  Apperature = 4.0; break;
-                case 8:  Apperature = 5.6; break;
-                case 9:  Apperature = 6.3; break;
-                case 10: Apperature = 8.0; break;
-                case 11: Apperature = 11;  break;
-                case 12: Apperature = 16;  break;
-                case 13: Apperature = 22;  break;
-                default: APcounter  = 0;   break;
+        } else if (sw4.read() == 0 && sw2.read() == 1 && sw1.read() == 1 && sw3.read() == 1){           // Increase aperature
+            Apperature = ApArray[APcounter];
+            if(APcounter > 15){
+                APcounter = 0;
+            } else {
+                APcounter++;
             }
-            APcounter++;
             displayed = false;
             continue;
-        } else if (sw3.read() == 0 && sw2.read() == 1 && sw4.read() == 1 && sw1.read() == 1){ //Shutterspeed
-            switch (SScounter) {
-                case 0:  realShutterspeed = 0;    break;
-                case 1:  realShutterspeed = 8000; break;
-                case 2:  realShutterspeed = 6400; break;
-                case 3:  realShutterspeed = 5000; break;
-                case 4:  realShutterspeed = 4000; break;
-                case 5:  realShutterspeed = 3200; break;
-                case 6:  realShutterspeed = 2500; break;
-                case 7:  realShutterspeed = 2000; break;
-                case 8:  realShutterspeed = 1600; break;
-                case 9:  realShutterspeed = 1250; break;
-                case 10: realShutterspeed = 1000; break;
-                case 11: realShutterspeed = 800;  break;
-                case 12: realShutterspeed = 640;  break;
-                case 13: realShutterspeed = 500;  break;
-                case 14: realShutterspeed = 400;  break;
-                case 15: realShutterspeed = 320;  break;
-                case 16: realShutterspeed = 250;  break;
-                case 17: realShutterspeed = 200;  break;
-                case 18: realShutterspeed = 160;  break;
-                case 19: realShutterspeed = 125;  break;
-                case 20: realShutterspeed = 100;  break;
-                case 21: realShutterspeed = 80;   break;
-                case 22: realShutterspeed = 60;   break;
-                case 23: realShutterspeed = 50;   break;
-                case 24: realShutterspeed = 40;   break;
-                case 25: realShutterspeed = 30;   break;
-                case 26: realShutterspeed = 25;   break;
-                case 27: realShutterspeed = 20;   break;
-                case 28: realShutterspeed = 15;   break;
-                case 29: realShutterspeed = 13;   break;
-                case 30: realShutterspeed = 10;   break;
-                case 31: realShutterspeed = 8;    break;
-                case 32: realShutterspeed = 6;    break;
-                case 33: realShutterspeed = 5;    break;
-                case 34: realShutterspeed = 4;    break;
-                default: SScounter        = 0;    break;
-        }
-            SScounter++;
+        } else if (sw3.read() == 0 && sw2.read() == 1 && sw4.read() == 1 && sw1.read() == 1){           // Increase shutterspeed
+            realShutterspeed = ssArray[SScounter];
+            if(SScounter > 35){
+                SScounter = 0;
+            } else {
+                SScounter++;
+            }
             displayed = false;
             continue;
         } else if (sw1.read() == 0 && sw2.read() == 1 && sw3.read() == 1 && sw4.read() == 1){
