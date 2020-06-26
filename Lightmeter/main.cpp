@@ -3,7 +3,6 @@
 
 bool displayed = false;
 int ISO = 0;
-float shutterSpeed = 0;
 int realShutterspeed = 0;                             
 int Apperature = 0;                              //Supposed to be a float but gives problems
 
@@ -130,30 +129,20 @@ void showSettingsMenu(hwlib::terminal_from & display, hwlib::terminal_from & hea
             continue;
         } else if (sw1.read() == 0 && sw2.read() == 1 && sw3.read() == 1 && sw4.read() == 1){
             if(ISO == 0 && realShutterspeed != 0 && Apperature != 0){
-                hwlib::cout << "\n Calculating ISO with values: \n Aperature: " << Apperature << "\n shutterspeed: " << realShutterspeed;
                 ISO = meter.getISO((float)Apperature, 1 / realShutterspeed);
-                hwlib::cout << "\n Result is ISO: " << ISO;
                 displayed = false;
                 calculated = true;
-                hwlib::wait_ms(50);
             } else if(realShutterspeed == 0 && ISO != 0 && Apperature != 0){
-                hwlib::cout << "\n Calculating Shutterspeed with values: \n Aperature: " << Apperature << "\n ISO: " << ISO;
-                shutterSpeed = meter.getShutterspeed((float)Apperature, ISO);
-                realShutterspeed = 1 / shutterSpeed;
-                hwlib::cout << "\n Result is Shutterspeed: " << realShutterspeed;
+                realShutterspeed = meter.getShutterspeed((float)Apperature, ISO);
                 displayed = false;
                 calculated = true;
-                hwlib::wait_ms(50);
             } else if(Apperature == 0 && realShutterspeed != 0 && ISO != 0){
-                hwlib::cout << "\n Calculating Aperature with values: \n ISO: " << ISO << "\n shutterspeed: " << realShutterspeed;
                 Apperature = meter.getApperature(ISO, 1 / realShutterspeed);
-                hwlib::cout << "\n Result is Aperature: " << Apperature;
                 displayed = false;
                 calculated = true;
-                hwlib::wait_ms(50);
             } else {
                 display << "\f" << hwlib::flush;
-                display << "\nInvalid entry"<< hwlib::flush;
+                display << "\n Invalid entry \n Values reset"<< hwlib::flush;
                 realShutterspeed = 0;
                 ISO = 0;
                 Apperature = 0;
