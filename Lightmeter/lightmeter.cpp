@@ -59,7 +59,7 @@ float lightmeter::getCorrectAperature(float x){
     return nearest;
 }
 
-float lightmeter::getApperature(int ISO, int shutterSpeed){
+float lightmeter::getApperature(int ISO, float shutterSpeed){
     return getCorrectAperature(sqrt(((ISO * getEv()) / 12.5 ) * shutterSpeed));
 }
 
