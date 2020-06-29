@@ -39,7 +39,7 @@ public:
     /// \details
     /// This function measures the lightintensity an x amount of times
     /// the default amount of measurments is 5.
-    uint16_t GetAverageLightIntensity(const int amount = 5);
+    uint32_t getAverageLightIntensity(const int amount = 5);
 };
 
 #endif

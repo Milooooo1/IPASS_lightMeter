@@ -32,8 +32,6 @@ protected:
     hwlib::target::pin_oc sda = hwlib::target::pin_oc( hwlib::target::pins::sda );
     hwlib::i2c_bus_bit_banged_scl_sda bus = hwlib::i2c_bus_bit_banged_scl_sda( scl,sda );
 
-public:
-
     /// \brief
     /// enum for the different states
     /// \details
@@ -74,6 +72,8 @@ public:
         MAX_MTREG     = 0xFE
     };
 
+public:
+
     /// \brief
     /// Constructor
     /// \details
@@ -88,27 +88,27 @@ public:
     /// \details
     /// This function preserves battery life by giving it
     /// no active state which means its 'sleeping'.
-    void PowerDown();
+    void powerDown();
 
     /// \brief
     /// Power on
     /// \details
     /// This function makes the chip wait for a measurment 
     /// command, it wakes the device up if its 'sleeping'.
-    void PowerOn();
+    void powerOn();
 
     /// \brief
     /// Reset
     /// \details
     /// This function resets the data stored in the registers.
-    void Reset();
+    void reset();
 
     /// \brief
     /// Configure mode
     /// \details
     /// This function configures the mode which is used
     /// by the chip how to measure the light value.
-    void Configure(MODE mode);
+    void configure(MODE mode);
 
     /// \brief
     /// Configure measurement time
@@ -116,14 +116,14 @@ public:
     /// This function adds the ability to change
     /// the measurement time (MTreg = measurment register)
     /// this changes the sensitivity of the sensor. 
-    void ConfigureMTREG(MTREGT_MODES mode);
+    void configureMTREG(MTREGT_MODES mode);
 
     /// \brief
     /// Measure light intensity
     /// \details
     /// This function returns the measured light intensity
     /// the value is measured in LUX. 
-    uint16_t GetLightIntensity(void);   
+    uint16_t getLightIntensity();   
 
 };   
 
