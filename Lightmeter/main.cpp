@@ -81,7 +81,7 @@ void showSettingsMenu(hwlib::terminal_from & display, hwlib::terminal_from & hea
 
     for(;;){
 
-        floatToArray(Apperature, ap, 1);
+        floatToArray(Aperture, ap, 1);
         if (!displayed){
             display << "\f" << hwlib::flush;
             display << "\n"
@@ -113,7 +113,7 @@ void showSettingsMenu(hwlib::terminal_from & display, hwlib::terminal_from & hea
             displayed = false;
             continue;
         } else if (sw4.read() == 0 && sw2.read() == 1 && sw1.read() == 1 && sw3.read() == 1){           // Increase aperture
-            Apperature = ApArray[APcounter];
+            Aperture = ApArray[APcounter];
             if (APcounter > 15){
                 APcounter = 0;
             } else {
@@ -131,16 +131,16 @@ void showSettingsMenu(hwlib::terminal_from & display, hwlib::terminal_from & hea
             displayed = false;
             continue;
         } else if (sw1.read() == 0 && sw2.read() == 1 && sw3.read() == 1 && sw4.read() == 1){
-            if (ISO == 0 && realShutterspeed != 0 && Apperature != 0){                                  // Calculate ISO
+            if (ISO == 0 && realShutterspeed != 0 && Aperture != 0){                                  // Calculate ISO
                 ISO = meter.getISO((float)Aperture, 1 / realShutterspeed);
                 displayed = false;
                 calculated = true;
-            } else if (realShutterspeed == 0 && ISO != 0 && Apperature != 0){                           // Calculate shutterspeed
+            } else if (realShutterspeed == 0 && ISO != 0 && Aperture != 0){                           // Calculate shutterspeed
                 realShutterspeed = meter.getShutterspeed((float)Aperture, ISO);
                 displayed = false;
                 calculated = true;
             } else if (Apperature == 0 && realShutterspeed != 0 && ISO != 0){                           // Calculate aperture
-                Apperature = meter.getApperature(ISO, 1 / realShutterspeed);
+                Aperture = meter.getAperture(ISO, 1 / realShutterspeed);
                 displayed = false;
                 calculated = true;
             } else {                                                                                    // Invalid entry
@@ -148,7 +148,7 @@ void showSettingsMenu(hwlib::terminal_from & display, hwlib::terminal_from & hea
                 display << "\n Invalid entry \n Values reset"<< hwlib::flush;
                 realShutterspeed = 0;
                 ISO = 0;
-                Apperature = 0;
+                Aperture = 0;
                 displayed = false;
                 calculated = false;
                 hwlib::wait_ms(1000);

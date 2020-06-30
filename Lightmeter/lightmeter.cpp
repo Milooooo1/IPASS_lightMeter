@@ -84,7 +84,7 @@ float lightmeter::getShutterspeed(float aperature, int ISO){
 
 // Standard formula:
 // N^2 / t = L * S / K
-// N = Apperature
+// N = Aperture
 // t = shutterspeed (time)
 // L = EV (Luminance)
 // S = ISO
