@@ -139,7 +139,7 @@ void showSettingsMenu(hwlib::terminal_from & display, hwlib::terminal_from & hea
                 realShutterspeed = meter.getShutterspeed((float)Aperture, ISO);
                 displayed = false;
                 calculated = true;
-            } else if (Apperature == 0 && realShutterspeed != 0 && ISO != 0){                           // Calculate aperture
+            } else if (Aperture == 0 && realShutterspeed != 0 && ISO != 0){                           // Calculate aperture
                 Aperture = meter.getAperture(ISO, 1 / realShutterspeed);
                 displayed = false;
                 calculated = true;
@@ -167,7 +167,7 @@ void LuxEvMeter(hwlib::terminal_from & display, hwlib::terminal_from & headerDis
     headerDisplay << " Lux & EV meter" << hwlib::flush;
     for(;;){
         display << "\f" << hwlib::flush;
-        Lux = sensor.GetLightIntensity();
+        Lux = sensor.getLightIntensity();
         ExposureValue = meter.getEv();
         display << "\nEV: " << ExposureValue << "\n"
                 << "Lux: " << Lux << hwlib::flush;

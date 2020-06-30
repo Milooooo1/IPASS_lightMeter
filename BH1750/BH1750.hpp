@@ -32,6 +32,8 @@ protected:
     hwlib::target::pin_oc sda = hwlib::target::pin_oc( hwlib::target::pins::sda );
     hwlib::i2c_bus_bit_banged_scl_sda bus = hwlib::i2c_bus_bit_banged_scl_sda( scl,sda );
 
+public:
+
     /// \brief
     /// enum for the different states
     /// \details
@@ -71,8 +73,6 @@ protected:
         MIN_MTREG     = 0x1F,
         MAX_MTREG     = 0xFE
     };
-
-public:
 
     /// \brief
     /// Constructor

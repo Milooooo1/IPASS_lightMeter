@@ -18,15 +18,15 @@ float lightmeter::log2(float x){
 }
 
 float lightmeter:: getEv(){
-    return log2(sensor.GetLightIntensity() / 2.5);
+    return log2(sensor.getLightIntensity() / 2.5);
 }
 
 void lightmeter::configMeasurement(BH1750::MODE mode){
-    sensor.Configure(mode);
+    sensor.configure(mode);
 }
 
 float lightmeter::getLux(){
-    return sensor.GetLightIntensity();
+    return sensor.getLightIntensity();
 }
 
 int lightmeter::getCorrectISO(float x){

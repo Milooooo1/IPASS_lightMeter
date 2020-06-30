@@ -16,7 +16,7 @@ BH1750_Average::BH1750_Average(BH1750 & slave):
 uint32_t BH1750_Average::getAverageLightIntensity(const int amount){
     uint32_t total = 0;
     for(int i = 0; i < amount; i++){
-        total += slave.GetLightIntensity();
+        total += slave.getLightIntensity();
     }
     return total / amount;
 }
