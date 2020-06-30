@@ -4,8 +4,9 @@
 bool displayed = false;
 int ISO = 0;
 int realShutterspeed = 0;                             
-float Apperature = 0;
+float Aperture = 0;
 
+// Reverste a char* str with given length int len
 void reverse(char* str, int len){
     int i = 0, j = len - 1, temp;
     while(i < j){
@@ -17,6 +18,10 @@ void reverse(char* str, int len){
     }
 }
 
+// int x is the integer you want to convert to char str[]
+// the integer will be stored in char str[]
+// int d are the amount of 0's added at the beginning
+// if x is greater than d
 int intToString(int x, char str[], int d){
     int i = 0;
     while(x){
@@ -31,11 +36,14 @@ int intToString(int x, char str[], int d){
     return i;
 }
 
+// float n is the variable you want to convert to an array
+// char* res is the array where the variable n will be stored in
+// aterpoint is the amount of digits you want to save after the point
 void floatToArray(float n, char* res, int afterpoint){
     int ipart = (int)n;
     float fpart = n - (float)ipart;
     int i = intToString(ipart, res, 0);
-    if(afterpoint != 0 ){
+    if (afterpoint != 0 ){
         res[i] = '.';
         fpart = fpart * pow(10, afterpoint);
         intToString((int)fpart, res + i + 1, afterpoint);
@@ -43,11 +51,14 @@ void floatToArray(float n, char* res, int afterpoint){
 
 }
 
+// This function clears the screen
 void clearScreen(hwlib::terminal_from & display, hwlib::terminal_from & header){
     display << "\f" << hwlib::flush;
     header << "\f" << hwlib::flush;
 }
 
+// This function shows the settings menu, manipulates the 
+// ISO, aperture and shutterspeed and calculates the missing value
 void showSettingsMenu(hwlib::terminal_from & display, hwlib::terminal_from & headerDisplay, lightmeter & meter,
                       hwlib::target::pin_in & sw1, hwlib::target::pin_in & sw2, hwlib::target::pin_in & sw3,
                       hwlib::target::pin_in & sw4){
@@ -71,7 +82,7 @@ void showSettingsMenu(hwlib::terminal_from & display, hwlib::terminal_from & hea
     for(;;){
 
         floatToArray(Apperature, ap, 1);
-        if(!displayed){
+        if (!displayed){
             display << "\f" << hwlib::flush;
             display << "\n"
                 << "ISO: "  << ISO      << "\n"
@@ -89,21 +100,21 @@ void showSettingsMenu(hwlib::terminal_from & display, hwlib::terminal_from & hea
         // Switch 2 increases the ISO
         // Switch 3 increases the aperature
         // Switch 4 increases the shutterspeed
-        if(sw1.read() == 0 && calculated){
+        if (sw1.read() == 0 && calculated){
             displayed = false;
             return;
         } else if (sw2.read() == 0 && sw1.read() == 1 && sw3.read() == 1 && sw4.read() == 1){           // Increase IOS
             ISO = ISOArray[ISOcounter];
-            if(ISOcounter > 20){
+            if (ISOcounter > 20){
                 ISOcounter = 0;
             } else {
                 ISOcounter++;
             }
             displayed = false;
             continue;
-        } else if (sw4.read() == 0 && sw2.read() == 1 && sw1.read() == 1 && sw3.read() == 1){           // Increase aperature
+        } else if (sw4.read() == 0 && sw2.read() == 1 && sw1.read() == 1 && sw3.read() == 1){           // Increase aperture
             Apperature = ApArray[APcounter];
-            if(APcounter > 15){
+            if (APcounter > 15){
                 APcounter = 0;
             } else {
                 APcounter++;
@@ -112,7 +123,7 @@ void showSettingsMenu(hwlib::terminal_from & display, hwlib::terminal_from & hea
             continue;
         } else if (sw3.read() == 0 && sw2.read() == 1 && sw4.read() == 1 && sw1.read() == 1){           // Increase shutterspeed
             realShutterspeed = ssArray[SScounter];
-            if(SScounter > 35){
+            if (SScounter > 35){
                 SScounter = 0;
             } else {
                 SScounter++;
@@ -120,19 +131,19 @@ void showSettingsMenu(hwlib::terminal_from & display, hwlib::terminal_from & hea
             displayed = false;
             continue;
         } else if (sw1.read() == 0 && sw2.read() == 1 && sw3.read() == 1 && sw4.read() == 1){
-            if(ISO == 0 && realShutterspeed != 0 && Apperature != 0){
-                ISO = meter.getISO((float)Apperature, 1 / realShutterspeed);
+            if (ISO == 0 && realShutterspeed != 0 && Apperature != 0){                                  // Calculate ISO
+                ISO = meter.getISO((float)Aperture, 1 / realShutterspeed);
                 displayed = false;
                 calculated = true;
-            } else if(realShutterspeed == 0 && ISO != 0 && Apperature != 0){
-                realShutterspeed = meter.getShutterspeed((float)Apperature, ISO);
+            } else if (realShutterspeed == 0 && ISO != 0 && Apperature != 0){                           // Calculate shutterspeed
+                realShutterspeed = meter.getShutterspeed((float)Aperture, ISO);
                 displayed = false;
                 calculated = true;
-            } else if(Apperature == 0 && realShutterspeed != 0 && ISO != 0){
+            } else if (Apperature == 0 && realShutterspeed != 0 && ISO != 0){                           // Calculate aperture
                 Apperature = meter.getApperature(ISO, 1 / realShutterspeed);
                 displayed = false;
                 calculated = true;
-            } else {
+            } else {                                                                                    // Invalid entry
                 display << "\f" << hwlib::flush;
                 display << "\n Invalid entry \n Values reset"<< hwlib::flush;
                 realShutterspeed = 0;
@@ -146,6 +157,7 @@ void showSettingsMenu(hwlib::terminal_from & display, hwlib::terminal_from & hea
     }
 }
 
+// This function shows the lux meter which is updated live
 void LuxEvMeter(hwlib::terminal_from & display, hwlib::terminal_from & headerDisplay,
                 BH1750 & sensor, lightmeter & meter, hwlib::target::pin_in & back){
 
@@ -162,7 +174,7 @@ void LuxEvMeter(hwlib::terminal_from & display, hwlib::terminal_from & headerDis
         
         displayed = false;
         back.refresh();
-        if(back.read() == 0){
+        if (back.read() == 0){
             return;
         } else {
             continue;
@@ -204,7 +216,7 @@ int main(void){
     meter.configMeasurement(sensor.CONTINUOUSLY_H_RES);
 
     for(;;){
-        if(!displayed){
+        if (!displayed){
             clearScreen(display, headerDisplay);
             headerDisplay   << "  Enter input" << hwlib::flush;
             display         << "\n s: Settings"
@@ -216,9 +228,9 @@ int main(void){
 
         sw1.refresh();
         sw2.refresh();
-        if(sw1.read() == 0 && sw2.read() == 1){
+        if (sw1.read() == 0 && sw2.read() == 1){
             showSettingsMenu(display, headerDisplay, meter, sw1, sw2, sw3, sw4);
-        } else if(sw2.read() == 0 && sw1.read() == 1){
+        } else if (sw2.read() == 0 && sw1.read() == 1){
             LuxEvMeter(display, headerDisplay, sensor, meter, sw2);
         }
     }

@@ -22,7 +22,7 @@
 /// \details
 /// This is a C++ Library using the BH1750 library 
 /// to measure the lightintensity and calculates
-/// the Aperature, Shutterspeed or ISO which you
+/// the Aperture, Shutterspeed or ISO which you
 /// can enter into your camera to get a correctly
 /// exposed photo. 
 
@@ -53,7 +53,7 @@ public:
     /// This function calls the sensor to measure
     /// the lightintensity and calculates the 
     /// exposure value which is needed to calculate
-    /// the shutterspeed, aperature or ISO
+    /// the shutterspeed, aperture or ISO
     float getEv();
 
     /// \brief
@@ -81,24 +81,24 @@ public:
     /// Calculate ISO
     /// \details
     /// This function calculates the ISO, it needs
-    /// the aperature and shutterspeed which are 
+    /// the aperture and shutterspeed which are 
     /// configured by the user. 
-    float getISO(float Apperature, float shutterSpeed);
+    float getISO(float Aperture, float shutterSpeed);
 
     /// \brief
-    /// Get photography style aperature
+    /// Get photography style aperture
     /// \details
     /// This function rounds the exact aperature to
     /// the closest photography-style aperature
-    float getCorrectAperature(float x);
+    float getCorrectAperture(float x);
 
     /// \brief
-    /// Calculate Aperature
+    /// Calculate Aperture
     /// \details
     /// This function calculates the Aperature, it needs
     /// the ISO and shutterspeed which are 
     /// configured by the user. 
-    float getApperature(int ISO, float shutterSpeed);
+    float getAperture(int ISO, float shutterSpeed);
 
     /// \brief
     /// Get photography style shutterspeed
@@ -111,9 +111,9 @@ public:
     /// Calculate Shutterspeed
     /// \details
     /// This function calculates the Shutterspeed, it needs
-    /// the aperature and ISO which are 
+    /// the aperture and ISO which are 
     /// configured by the user. 
-    float getShutterspeed(float Apperature, int ISO);
+    float getShutterspeed(float Aperture, int ISO);
 };
 
 #endif //LIGHTMETER_hpp

@@ -42,25 +42,25 @@ int lightmeter::getCorrectISO(float x){
     return nearest;
 }
 
-float lightmeter::getISO(float shutterspeed, float aperature){
-    return getCorrectISO((((pow(aperature, 2.0) / shutterspeed) * 12.5) / 2));
+float lightmeter::getISO(float shutterspeed, float aperture){
+    return getCorrectISO((((pow(aperture, 2.0) / shutterspeed) * 12.5) / 2));
 }
 
-float lightmeter::getCorrectAperature(float x){
-    float aperature[12] = { 1.1, 1.2, 1.4, 1.8, 2.0, 2.8, 4, 5.6, 8, 11, 16, 22 };
-    float nearest = aperature[11];
+float lightmeter::getCorrectAperture(float x){
+    float aperture[12] = { 1.1, 1.2, 1.4, 1.8, 2.0, 2.8, 4, 5.6, 8, 11, 16, 22 };
+    float nearest = aperture[11];
     float previousDifference = 5;
     for(int i = 11; i > 0; i--){
-        if(abs(x - aperature[i]) < previousDifference){
-            nearest = aperature[i];
-            previousDifference = abs(x - aperature[i]);
+        if(abs(x - aperture[i]) < previousDifference){
+            nearest = aperture[i];
+            previousDifference = abs(x - aperture[i]);
         }
     }
     return nearest;
 }
 
-float lightmeter::getApperature(int ISO, float shutterSpeed){
-    return getCorrectAperature(sqrt(((ISO * getEv()) / 12.5 ) * shutterSpeed));
+float lightmeter::getAperture(int ISO, float shutterSpeed){
+    return getCorrectAperture(sqrt(((ISO * getEv()) / 12.5 ) * shutterSpeed));
 }
 
 int lightmeter::getCorrectShutterspeed(float x){
